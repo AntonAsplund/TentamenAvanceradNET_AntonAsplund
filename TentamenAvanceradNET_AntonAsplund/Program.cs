@@ -17,7 +17,8 @@ namespace TentamenAvanceradNET_AntonAsplund
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //Simulation loop time can be changed in "partOne" and "partTwo" in KrankenhausSimulation.
+            //Simulation loop time can be changed in "partOne" and "partTwo" in KrankenhausSimulation class
+            //Number of patients in the simulation can be changed in the ThreadOne method in KrankenhausMain class
             //Have in mind that if the simulation is cancel or exited incorrectly, the log file might contain corrupt data during the next simulation run.
 
             KrankenhausSimulation krankenhausSimulation = new KrankenhausSimulation() { SimulationOver = false };

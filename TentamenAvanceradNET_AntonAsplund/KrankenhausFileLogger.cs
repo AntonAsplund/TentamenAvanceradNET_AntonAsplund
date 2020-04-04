@@ -47,7 +47,7 @@ namespace TentamenAvanceradNET_AntonAsplund
             {
                 streamWriter.WriteLine($"----------------");
                 streamWriter.WriteLine($"----------------");
-                streamWriter.WriteLine($"Start of simulation number: {simulationNumber}");
+                streamWriter.WriteLine($"Start of simulation number: {simulationNumber+1}");
                 streamWriter.WriteLine($"----------------");
                 streamWriter.WriteLine($"----------------");
 
