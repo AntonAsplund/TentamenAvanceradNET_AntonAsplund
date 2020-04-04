@@ -40,6 +40,15 @@ namespace TentamenAvanceradNET_AntonAsplund
             
         }
         /// <summary>
+        /// Logs the start of a new simulation in the detailed log text file
+        /// </summary>
+        /// <param name="simulationNumber"></param>
+        internal void LogStartOfSimulation(int simulationNumber)
+        {
+            KrankenhausFileLogger.LogStartOfSimulationNumber(simulationNumber);
+        }
+
+        /// <summary>
         /// Calls the thread which checks if the simulation is over. If all patietns have been moved to afterlife or being discharged for hospital.
         /// </summary>
         /// <param name="krankenhausMain"></param>
@@ -140,6 +149,11 @@ namespace TentamenAvanceradNET_AntonAsplund
         internal void PrintAllSimulationsInfoToTextFile()
         {
             KrankenhausFileLogger.LogAllSimulationsInfoToFile();
+        }
+
+        internal void RenameDetailedLogFile()
+        {
+            KrankenhausFileLogger.RenameDetailedFile();
         }
     }
 }

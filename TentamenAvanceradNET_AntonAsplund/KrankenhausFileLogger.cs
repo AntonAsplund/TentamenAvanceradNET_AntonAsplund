@@ -21,7 +21,9 @@ namespace TentamenAvanceradNET_AntonAsplund
         /// <param name="e"></param>
         internal static void LogPatientsMovedToConsole(object sender, KrankenhausMovedPatientsEventArgs e)
         {
-            using (StreamWriter streamWriter = new StreamWriter("patientLog.txt", true))
+            string path = $"DetailedLogOfSimulations.txt";
+
+            using (StreamWriter streamWriter = new StreamWriter(path, true))
             {
 
                 streamWriter.WriteLine($"----------------");
@@ -34,13 +36,32 @@ namespace TentamenAvanceradNET_AntonAsplund
             }
         }
         /// <summary>
+        /// Writes to the detailed log file which simulation is being logged right now
+        /// </summary>
+        /// <param name="simulationNumber"></param>
+        internal static void LogStartOfSimulationNumber(int simulationNumber)
+        {
+            string path = $"DetailedLogOfSimulations.txt";
+
+            using (StreamWriter streamWriter = new StreamWriter(path, true))
+            {
+                streamWriter.WriteLine($"----------------");
+                streamWriter.WriteLine($"----------------");
+                streamWriter.WriteLine($"Start of simulation number: {simulationNumber}");
+                streamWriter.WriteLine($"----------------");
+                streamWriter.WriteLine($"----------------");
+
+            }
+        }
+
+        /// <summary>
         /// Logs all client requested info from the simluations in a separate file.
         /// </summary>
         internal static void LogAllSimulationsInfoToFile()
         {
             using (var db = new KrankenhausContext())
             {
-                string path = $"LogOfAllSimulations-{ DateTime.UtcNow.ToString("MM dd yyyy / HH/mm")}.txt";
+                string path = $"SummaryLogOfAllSimulations-{ DateTime.UtcNow.ToString("MM dd yyyy / HH/mm")}.txt";
                 path = path.Replace(" ", "");
 
                 using (StreamWriter streamWriter = new StreamWriter(path, true))
@@ -91,8 +112,32 @@ namespace TentamenAvanceradNET_AntonAsplund
                         streamWriter.WriteLine($"Total time for the handling of all patients: {treatmentTimeForAllPatients.Days} days, {treatmentTimeForAllPatients.Hours} hr, {treatmentTimeForAllPatients.Minutes} min, {treatmentTimeForAllPatients.Seconds} sec, {treatmentTimeForAllPatients.Milliseconds} milisec "); 
                     }
 
+                    streamWriter.WriteLine("---------------------");
+                    streamWriter.WriteLine("Detailed list of all patients result:");
+                    streamWriter.WriteLine("---------------------");
+                    var allPatientInSimulation = db.PatientHistories.ToList();
+
+                    for (int i = 0; i < allPatientInSimulation.Count; i++)
+                    {
+                        streamWriter.WriteLine("---------------------");
+                        streamWriter.WriteLine($"{allPatientInSimulation[i].Name}");
+                        streamWriter.WriteLine($"Age: {allPatientInSimulation[i].Age}");
+                        streamWriter.WriteLine($"Status: {allPatientInSimulation[i].Status}");
+                        streamWriter.WriteLine("---------------------");
+                    }
                 }
             }
+        }
+        /// <summary>
+        /// Renames the detailed log simulation file so next simulation will not continue to add data to the same text file
+        /// </summary>
+        internal static void RenameDetailedFile()
+        {
+            string path = $"DetailedLogOfAllSimulations-{ DateTime.UtcNow.ToString("MM dd yyyy / HH/mm")}.txt";
+            path = path.Replace(" ", "");
+
+            System.IO.File.Move("DetailedLogOfSimulations.txt", path);
+
         }
     }
 }

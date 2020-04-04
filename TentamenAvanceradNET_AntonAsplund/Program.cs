@@ -10,13 +10,22 @@ namespace TentamenAvanceradNET_AntonAsplund
 {
     class Program
     {
-
+        
+        /// <summary>
+        /// If the program is not run properly from finish to start, then the log files might not be created in the correct way and old data cleared. Resulting in incorrect log files during the next simulation.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
+            //Simulation loop time can be changed in "partOne" and "partTwo" in KrankenhausSimulation.
+            //Have in mind that if the simulation is cancel or exited incorrectly, the log file might contain corrupt data during the next simulation run.
+
             KrankenhausSimulation krankenhausSimulation = new KrankenhausSimulation() { SimulationOver = false };
 
             for (int i = 0; i < 10; i++)
             {
+                krankenhausSimulation.LogStartOfSimulation(i);
+
                 krankenhausSimulation.RunSimulation();
 
                 while (krankenhausSimulation.SimulationOver == false)
@@ -37,13 +46,17 @@ namespace TentamenAvanceradNET_AntonAsplund
                 }
                 else
                 {
-                    Console.WriteLine("The last simluation has completed. Please see \"LogOfAllSimulations{Date & Time}\" textfile in the program folder. ");
+                    Console.WriteLine("The last simluation has completed. Please see textfiles in the program folder for more information. ");
                 }
 
 
             }
 
             krankenhausSimulation.PrintAllSimulationsInfoToTextFile();
+            krankenhausSimulation.RenameDetailedLogFile();
+
+            RemoveEverythingFromAllTable(); // Deletes every record and makes sure there is a clean slate for the next simulation. 
+                                            // Next simulations log file will not be created correctly if this piece of code is not run.
 
             Console.WriteLine("Press any key to exit program...");
             Console.ReadKey();
