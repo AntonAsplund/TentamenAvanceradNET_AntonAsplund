@@ -14,9 +14,5 @@ namespace TentamenAvanceradNET_AntonAsplund.Database
         public int NumberOfRotationsLeft { get; set; }
         public bool assignedToICU { get; set; }
         public bool assignedToSantorium { get; set; }
-
-        public ICollection<Sanatorium> Sanatoriums { get; set; }
-
-        public ICollection<IntensiveCareUnit> intensiveCareUnits { get; set; }
     }
 }
